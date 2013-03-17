@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title_block %} {{ beer.name }} {% endblock %}
+
+{% block content_block %}
+    {% if moderator %}
+        <a class="moderator_link" href="/moderator/beer/edit/{{ beer.id }}" xmlns="http://www.w3.org/1999/html">Click here to edit this beer</a><br>
+        <a class="moderator_link" href="/moderator/beer/del/{{ beer.id }}">Click here to delete this beer</a><br>
+    {% endif %}
+    <br>
+    <div class="row">
+        <div class="span2">
+            {% if beer.image %}
+                <img src="/site_media/{{ beer.image }}"/>
+            {% else %}
+                <img src="/site_media/img/beer_img/no-photo.jpg"/>
+            {% endif %}
+        </div>
+        <div class="span10" id="beer_info">
+            <table>
+                <tr><td>Name:</td><td>{{ beer.name }}</td></tr>
+                <tr><td>Brewery:</td><td><a href="/brewery/{{ beer.brewery.id }}">{{ beer.brewery }}</a></td></tr>
+                <tr><td>Alcohol by vol.:</td><td>{% if beer.abv %}{{ beer.abv }}{% else %}-{% endif %}</td></tr>
+                <tr><td>Beer style:</td><td>{% if beer.beer_style %}{{ beer.beer_style }}{% else %}-{% endif %}</td></tr>
+                <tr><td>Description:</td><td>{% if beer.description %}{{ beer.description }}{% else %}-{% endif %}</td></tr>
+                <tr><td>Community mark:</td><td>{{ avg }}<td></tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    {% if list %}
+        {% for item in list %}
+            <div class="span8 comment_review_box">
+                <b>{{ item.0.author }}</b> at {{ item.0.time }} {{ item.0.date }} wrote:<br>
+                {% ifequal item.1 'r' %}
+                    <a name="review{{ item.0.id }}"></a>
+                    <b>Flavour</b>: {{ item.0.flavour_review }} <b>[{{ item.0.flavour_mark }}]</b> <br>
+                    <b>Aroma</b>: {{ item.0.aroma_review }} <b>[{{ item.0.aroma_mark }}]</b><br>
+                    <b>Palate</b>: {{ item.0.palate_review }} <b>[{{ item.0.palate_mark }}]</b><br>
+                    <b>Appearance</b>: {{ item.0.appearance_review }} <b>[{{ item.0.appearance_mark }}]</b><br>
+                    <b>Description</b>: {{ item.0.description }} <br>
+                    In total: <b>{{ item.0.averaged_mark }}</b>
+                {% else %}
+                    <a name="comment{{ item.0.id }}"></a>
+                    {{ item.0.description }}
+                {% endifequal %}
+            </div>
+
+        {% endfor %}
+    {% else %}
+        {{ beer.name }} doesn't have any comment or reviews. You can be first!
+    {% endif %}
+    {% if user.is_authenticated %}
+        <div class="span12" id="add_review_box">
+            <form action="" method="post">{% csrf_token %}
+                <textarea name="comment" placeholder="Write your comment here" rows="2" style="width: 60%;"></textarea>
+                <input type="submit" value="Add">
+            </form>
+            <a href="/beer/{{ beer.id }}/add_review">Click here to add full review.</a>
+        </div>
+    {% else %}
+        To add your own review of this beer sign in.
+    {% endif %}
+{% endblock %}

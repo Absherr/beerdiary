@@ -1,0 +1,11 @@
+<script>
+    if ($("#list").has('#letter{{ item.name.0 }}').length)
+    {}
+    else
+    {
+        $('#list').append('<div id="letter{{ item.name.0 }}" " +
+        "name = "letter{{ item.name.0 }}"><div " +
+    "id="list{{ item.name.0 }}" style="width: 40%; float: left;"></div><div " +
+    "id="marks{{ item.name.0 }}" style="width: 60%; float: right;"></div></div>');
+    }
+</script>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title_block %}Edit Country{% endblock %}
+
+{% block content_block %}
+    <form action="/moderator/country/edit/{{ country.id }}" method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <a HREF="javascript:history.go(-1)">Back</a> <input type="submit" value="Save">
+        <a href="/moderator/country/del/{{ country.id }}">Delete this country</a>
+    </form>
+{% endblock %}

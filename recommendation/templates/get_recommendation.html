@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title_block %}
+    Recommended beers
+{% endblock %}
+
+{% block content_block %}
+    <h2>Beers, that you will probably like:</h2>
+    <div class="span12">
+        {% for item in list %}
+            <a href="/beer/{{ item.0.id }}"> {{ item.0 }}</a> with {{ item.1 }} points<br>
+        {% endfor %}
+    </div>
+{% endblock %}

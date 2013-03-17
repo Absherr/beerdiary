@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title_block %} Searching for the beer {% endblock %}
+{% block content_block %}
+    <form action="/search/" method="get">
+        Look for: <input type="text" id="q" name="q" value="{{ query }}">
+        in:
+        <select name="category">
+            <option id="everywhere" value="everywhere">everywhere</option>
+            <option id="beers" value="beers">beers</option>
+            <option id="breweries" value="breweries">breweries</option>
+            <option id="countries" value="countries">countries</option>
+            <option id="tags" value="tags">tags</option>
+        </select><br>
+        <input class="btn" type="submit" value="Search">
+    </form>
+    <script>
+        $("#" + "{{ category }}").attr("selected", "selected")
+    </script>
+
+    {% if query %}
+        {% ifnotequal result.beers 0 %}
+            <h3>Found beers:</h3>
+            <h5>by name</h5>
+            {% if result.beers %}
+                {% for beer in result.beers %}
+                    <a href="/beer/{{ beer.id }}">{{ beer.name }}, {{ beer.brewery.name }}</a><br>
+                {% endfor %}
+            {% else %}
+                No beers found.
+            {% endif %}
+        {% endifnotequal %}
+
+        {% ifnotequal result.beers_by_tag 0 %}
+            <h5>by tag</h5>
+            {% if result.beers_by_tag %}
+                {% for beer in result.beers_by_tag %}
+                    <a href="/beer/{{ beer.id }}">{{ beer.name }}, {{ beer.brewery.name }}</a>
+                        <span class="tags_list">
+                        (
+                        {% for tag in beer.tags.all %}
+                            <a class="tag_link" href="/tag/{{ tag }}">{{ tag }}</a>
+                        {% endfor %}
+                        )
+                        </span>
+                        <br>
+                {% endfor %}
+            {% else %}
+                No beers found.
+            {% endif %}
+        {% endifnotequal %}
+
+        {% ifnotequal result.breweries 0 %}
+            <h3>Found breweries:</h3>
+            {% if result.breweries %}
+                {% for brewery in result.breweries %}
+                    <a href="/brewery/{{ brewery.id }}">{{ brewery.name }}</a><br>
+                {% endfor %}
+            {% else %}
+                No breweries found.
+            {% endif %}
+        {% endifnotequal %}
+
+        {% ifnotequal result.countries 0 %}
+            <h3>Found countries:</h3>
+            {% if result.countries %}
+                {% for country in result.countries %}
+                    <a href="/country/{{ country.id }}">{{ country.name }}</a><br>
+                {% endfor %}
+            {% else %}
+                No countries found.
+            {% endif %}
+        {% endifnotequal %}
+
+        {% ifnotequal result.tags 0 %}
+            <h3>Found tags:</h3>
+            {% if result.tags %}
+                {% for tag in result.tags %}
+                    <a href="/tags/{{ tag.name }}">{{ tag.name }}</a>
+
+                {% endfor %}
+            {% else %}
+                No tags found.
+            {% endif %}
+        {% endifnotequal %}
+
+    {% endif %}
+
+
+{% endblock %}

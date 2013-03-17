@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title_block %}Edit Beer{% endblock %}
+
+{% block content_block %}
+    <form action="/moderator/brewery/edit/{{ brewery.id }}" method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <a HREF="javascript:history.go(-1)">Back</a> <input type="submit" value="Save">
+        <a href="/moderator/brewery/del/{{ brewery.id }}">Delete this brewery</a>
+    </form>
+{% endblock %}

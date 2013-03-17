@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title_block %}Beers tagged with {{ tag }}{% endblock %}
+
+{% block content_block %}
+    <h2>Beers tagged with '{{ tag }}'</h2>
+    {% if list %}
+        {% for beer in list %}
+            <a href="/beer/{{ beer.id }}">{{ beer }}</a></br>
+        {% endfor %}
+    {% else %}
+        There are no beers tagged with '{{ tag }}'.
+    {% endif %}
+{% endblock %}

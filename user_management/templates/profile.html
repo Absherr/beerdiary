@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title_block %}Your profile{% endblock %}
+{% block content_block %}
+    <div class="row">
+        <div class="span6">
+            <h4>Your information:</h4>
+            <table>
+                <tr><td>Username:</td><td>{{ user.username }}</td></tr>
+                <tr><td>E-mail:</td><td>{{ user.email }}</td></tr>
+                <tr><td>City:</td><td>{% if user_profile.city %}{{ user_profile.city }}{% else %}-{% endif %}</td></tr>
+                <tr><td>Age:</td><td>{% if user_profile.age %}{{ user_profile.age }}{% else %}-{% endif %}</td></tr>
+            </table>
+            <a href="edit">Click here to edit</a>
+        </div>
+        <div class="span6">
+            {% for item in state %}
+                {{ item }}
+            {% endfor %}
+            <form action="" method="post">{% csrf_token %}
+
+                <input type="checkbox" id="checkbox" onclick="this.form.change_pass_button.disabled=this.checked?'':'disabled';">
+                <label for="checkbox">I want to change my password</label>
+                <table>
+                    <tr>
+                        <td><label for="old_pass">Current password</label></td><td>{{ form.old_pass }}</td>
+                    </tr>
+                    <tr>
+                        <td></td><td>{{ form.non_field_errors.0 }}{{ form.old_pass.errors.0 }} &nbsp; </td>
+                    </tr>
+                    <tr>
+                        <td><label for="new_pass">New password</label></td><td>{{ form.new_pass }}</td>
+                    </tr>
+                    <tr>
+                        <td></td><td>{{ form.non_field_errors.0 }}{{ form.new_pass.errors.0 }} &nbsp; </td>
+                    </tr>
+                    <tr>
+                        <td><label for="new_pass_repeat">Repeat password</label></td><td>{{ form.new_pass_repeat }}</td>
+                    </tr>
+                    <tr>
+                        <td></td><td>{{ form.non_field_errors.0 }}{{ form.new_pass_repeat.errors.0 }} &nbsp; </td>
+                    </tr>
+                </table>
+
+                <input class="bnt" type="submit" value="Change my password!" id="change_pass_button" disabled="disabled">
+            </form>
+        </div>
+    </div>
+    <div class="span12">
+        <h4>Your latest activity:</h4>
+            <br>
+        {% for r in reviews %}
+            <a href="/beer/{{ r.beer.id }}#review{{ r.id }}">On {{ r.date }} {{ r.time }} you added review to {{ r.beer }}</a><br>
+        {% endfor %}
+        {% for c in comments %}
+            <a href="/beer/{{ c.beer.id }}#comment{{ c.id }}">On {{ c.date }} {{ c.time }} you added comment to {{ c.beer }}</a><br>
+        {% endfor %}
+    </div>
+
+{% endblock %}

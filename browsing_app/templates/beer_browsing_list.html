@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title_block %} Beers list {% endblock %}
+
+{% block content_block %}
+    {% if moderator %}
+        <a  class='moderator_link' href="/moderator/beer/add">Click here to add new beer</a>
+    {% endif %}
+    <h2>Beers:</h2>
+    <div class="span12" id="first_letters"></div>
+    <div class="span12" id="list"></div>
+
+    <script src="/site_media/js/get_mark_bar.js"></script>
+    <script src="/site_media/js/browsing_script.js"></script>
+    {% if list %}
+        {% for item in list %}
+            <script>
+                add_to_view('{{ item.name.0 }}', true);
+                {% if moderator %}
+                    link_to_edit=" <a class='moderator_link' href='/moderator/beer/edit/{{ item.id }}'>[edit]</a>";
+                    $('#list'+'{{ item.name.0 }}').append('<a href="/beer/{{ item.id }}" class="browsing_link" id="link_to_{{ item.id }}">{{ item.name }}, {{ item.brewery }}</a>'+link_to_edit+'<br>');
+                {% else %}
+                    $('#list'+'{{ item.name.0 }}').append('<a href="/beer/{{ item.id }}" class="browsing_link" id="link_to_{{ item.id }}">{{ item.name }}, {{ item.brewery }}</a><br>');
+                {% endif %}
+                $('#marks'+'{{ item.name.0 }}').append(get_mark_bar('{{ item.community_mark }}','{{ item.id }}'));
+            </script>
+        {% endfor %}
+    {% else %}
+        We don't have any beers in our databse.
+    {% endif %}
+{% endblock %}
+
+

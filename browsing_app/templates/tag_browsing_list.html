@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title_block %} Tags list {% endblock %}
+{% block content_block %}
+    <h2>Tag list:</h2>
+    <div class="span12">
+    {% if tags %}
+        {% for item in tags %}
+            <a href="/tag/{{ item.name }}">{{ item }}</a>{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    {% else %}
+        We don't have any tags in our database.
+    {% endif %}
+    </div>
+{% endblock %}
+
+

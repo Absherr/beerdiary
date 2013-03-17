@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title_block %} Countries list {% endblock %}
+
+{% block content_block %}
+
+    {% if moderator %}
+        <a class="moderator_link" href="/moderator/country/add">Click here to add new country</a><br>
+    {% endif %}
+
+    <h2>Countries:</h2>
+    <div class="span12" id="first_letters"></div>
+    <div class="span12" id="list"></div>
+    <script src="/site_media/js/browsing_script.js"></script>
+    {% if list %}
+        {% for item in list %}
+            <script>
+                add_to_view('{{ item.name.0 }}',false);
+                {% if moderator %}
+                    link_to_edit="<a class='moderator_link' href='/moderator/country/edit/{{ item.id }}'> [edit] </a>";
+                    $('#letter'+'{{ item.name.0 }}').append('<a class="browsing_link" href="/country/{{ item.id }}">{{ item.name }}</a>'+link_to_edit+'</br>');
+
+                {% else %}
+                    $('#letter'+'{{ item.name.0 }}').append('<a class="browsing_link" href="/country/{{ item.id }}">{{ item.name }}</a></br>');
+
+                {% endif %}
+            </script>
+        {% endfor %}
+    {% else %}
+        We don't have any countries in our database.
+    {% endif %}
+{% endblock %}
+
+

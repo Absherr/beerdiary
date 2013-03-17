@@ -1,0 +1,14 @@
+<script>
+    if ($("#first_letters").has('#link{{ item.0.name.0 }}').length)
+    {}
+    else
+    {
+        $('#first_letters').append('<a id="link{{ item.0.name.0 }}" href="#letter{{ item.0.name.0 }}">{{ item.0.name.0 }}</a> ');
+    }
+    if ($("#list").has('#letter{{ item.0.name.0 }}').length)
+    {}
+    else
+    {
+        $('#list').append('<h2 class="capitalLetter">{{ item.0.name.0 }}</h2><div id="letter{{ item.0.name.0 }}" name = "letter{{ item.0.name.0 }}"><div id="list{{ item.0.name.0 }}" style="width: 40%; float: left;"></div><div id="marks{{ item.0.name.0 }}" style="width: 60%; float: right;"></div></div>');
+    }
+</script>

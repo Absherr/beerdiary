@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title_block %} Messages {% endblock %}
+
+{% block content_block %}
+    <h2>Messages from users:</h2>
+    {% if list %}
+        <table>
+            <tr>
+                <td>
+                    Reason
+                </td>
+                <td>
+                    User
+                </td>
+                <td>
+                    Date
+                </td>
+                <td>
+                    Message
+                </td>
+                <td>
+                    Delete
+                </td>
+            </tr>
+            {% for message in list %}
+                <tr>
+                    <td>
+                        {{ message.reason }}
+                    </td>
+                    <td>
+                        {{ message.author }}
+                    </td>
+                    <td>
+                        {{ message.date }}
+                    </td>
+                    <td>
+                        {{ message.content}}
+                    </td>
+                    <td>
+                        <a href="/moderator/message/del/{{ message.id }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        No messages.
+    {% endif %}
+{% endblock %}

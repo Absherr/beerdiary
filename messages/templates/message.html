@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title_block %}Send something {% endblock %}
+
+{% block content_block %}
+    Here you can send us some information. If you want to get response please sign in.<br>
+    <form action="/contact/" method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <img src="/site_media/img/captche/{{ captcha }}.jpg">
+    <input type="submit" value="Send">
+    </form>
+{% endblock %}

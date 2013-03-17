@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title_block %}Beer Diary{% endblock %}
+
+{% block content_block %}
+<div class="hero-unit">
+    <h1>BeerDiary</h1>
+
+    <p>BeerDiary is awesome and ultimate way to share your beer experience.</p>
+</div>
+
+<div class="row">
+    <div class="span1"></div>
+    <div class="span6">
+        <h2>News</h2>
+
+        {% for item in news %}
+            <div id="news_box">
+                <b>{{ item.author }} {{ item.date }} {{ item.time }}</b><br>
+                {{ item.content }}
+            </div>
+        {% endfor %}
+        <br>
+        <p><a class="btn" href="/news">More news &raquo;</a></p>
+    </div>
+    <div class="span4">
+        <h2>Latest activity</h2>
+        <h5>Beers, breweries, countries:</h5>
+        {% for item in bbc %}
+            {% ifequal item.1 "beer" %}
+                Added beer <a href="/{{ item.1 }}/{{ item.0.id }}">{{ item.0.name }}</a> from {{ item.0.brewery }}
+            {% endifequal %}
+            {% ifequal item.1 "brewery" %}
+                Added brewery <a href="/{{ item.1 }}/{{ item.0.id }}">{{ item.0.name }}</a>
+            {% endifequal %}
+            {% ifequal item.1 "country" %}
+                Added country <a href="/{{ item.1 }}/{{ item.0.id }}">{{ item.0.name }}</a>
+            {% endifequal %}
+            <br>
+        {% endfor %}
+        <h5>Users:</h5>
+        {% for user in users %}
+            {{ user }} has created account!<br>
+        {% endfor %}
+        <h5>Reviews, comments</h5>
+        {% for item in rc %}
+        {% ifequal item.1 "comment" %}
+            <a href="/beer/{{ item.0.beer.id }}#{{ item.1 }}{{ item.0.id }}">{{ item.0.author }} posted comment on {{ item.0.beer.name }}, from {{ item.0.beer.brewery }}</a>
+        {% endifequal %}
+            {% ifequal item.1 "review" %}
+                <a href="/beer/{{ item.0.beer.id }}#{{ item.1 }}{{ item.0.id }}">{{ item.0.author }} posted review on {{ item.0.beer.name }}, from {{ item.0.beer.brewery }}</a>
+        {% endifequal %}
+        <br>
+        {% endfor %}
+    </div>
+    <div class="span1"></div>
+</div>
+
+{% endblock %}
